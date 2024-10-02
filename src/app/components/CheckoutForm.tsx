@@ -1,6 +1,6 @@
 // app/components/CheckoutForm.tsx
 import { useState } from 'react';
-import { PaymentElement, useStripe, useElements } from '@stripe/stripe-react-js';
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
