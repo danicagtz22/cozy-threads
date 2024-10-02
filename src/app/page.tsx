@@ -1,101 +1,102 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState } from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import CheckoutForm from './components/CheckoutForm';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
+import { ShoppingCart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Product } from './types';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+const products: Product[] = [
+  {
+    id: 1,
+    name: 'Eco-Friendly Hoodie',
+    description: 'Comfortable, sustainable cotton blend hoodie perfect for any occasion.',
+    price: 59.99,
+    image: '/api/placeholder/300/200'
+  },
+  {
+    id: 2,
+    name: 'Organic Cotton T-Shirt',
+    description: 'Classic fit t-shirt made from 100% organic cotton.',
+    price: 29.99,
+    image: '/api/placeholder/300/200'
+  },
+  {
+    id: 3,
+    name: 'Recycled Denim Jeans',
+    description: 'Stylish jeans made from recycled materials without compromising comfort.',
+    price: 79.99,
+    image: '/api/placeholder/300/200'
+  }
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [clientSecret, setClientSecret] = useState('');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const addToCart = (product: Product) => {
+    setCartItems([...cartItems, product]);
+  };
+
+  const removeFromCart = (productId: number) => {
+    setCartItems(cartItems.filter(item => item.id !== productId));
+  };
+
+  const handleCheckout = async () => {
+    const response = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: {
+          amount: cartItems.reduce((sum, item) => sum + item.price, 0),
+        },
+      }),
+    });
+    
+    const { clientSecret } = await response.json();
+    setClientSecret(clientSecret);
+    setShowCheckout(true);
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <header className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Cozy Threads</h1>
+        <Button 
+          variant="outline"
+          onClick={() => setShowCart(!showCart)}
+          className="relative"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <ShoppingCart className="h-5 w-5" />
+          {cartItems.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {cartItems.length}
+            </span>
+          )}
+        </Button>
+      </header>
+
+      {showCheckout && clientSecret ? (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm />
+        </Elements>
+      ) : showCart ? (
+        <Cart 
+          items={cartItems}
+          onRemove={removeFromCart}
+          onCheckout={handleCheckout}
+        />
+      ) : (
+        <ProductList products={products} onAddToCart={addToCart} />
+      )}
     </div>
   );
 }
