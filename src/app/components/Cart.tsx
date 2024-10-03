@@ -1,8 +1,8 @@
 
 // app/components/Cart.tsx
 import { Product } from '../types';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '../../components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from  '../../components/ui/card';
 import { X } from 'lucide-react';
 
 interface CartProps {
