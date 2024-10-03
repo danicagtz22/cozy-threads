@@ -18,7 +18,7 @@ const products: Product[] = [
     name: 'Eco-Friendly Hoodie',
     description: 'Comfortable, sustainable cotton blend hoodie perfect for any occasion.',
     price: 59.99,
-    image: '/api/placeholder/300/200',
+    image: 'src/app/images/hoodie.jpg',
     sizes: ['S', 'M', 'L', 'XL']
   },
   {
