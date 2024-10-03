@@ -1,9 +1,9 @@
 // app/components/CheckoutForm.tsx
 import { useState } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '../../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Alert, AlertDescription } from '../../components/ui/alert';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
