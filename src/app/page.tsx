@@ -7,7 +7,7 @@ import CheckoutForm from './components/CheckoutForm';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import { ShoppingCart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { Product } from './types';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
