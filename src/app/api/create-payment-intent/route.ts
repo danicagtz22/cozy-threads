@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-08-16',
+  apiVersion: '2023-08-16', // Use this specific version
 });
 
 export async function POST(request: Request) {
@@ -17,7 +17,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
-    // Use the error variable here
     console.error('Error creating payment intent:', error);
     return NextResponse.json({ error: 'Error creating payment intent' }, { status: 500 });
   }
