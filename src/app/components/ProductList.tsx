@@ -29,7 +29,7 @@ function ProductItem({ product, onAddToCart }: { product: Product; onAddToCart: 
 
     return (
         <Card>
-            <Image src={product.image} alt={product.name} width={300} height={200} />
+            <Image src={product.image} alt={product.name} width={300} height={300} layout="responsive" objectFit="cover"/>
             <CardHeader>
                 <CardTitle>{product.name}</CardTitle>
                 <CardDescription>${product.price.toFixed(2)}</CardDescription>
