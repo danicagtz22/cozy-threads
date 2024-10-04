@@ -18,7 +18,7 @@ const products: Product[] = [
     name: 'Eco-Friendly Hoodie',
     description: 'Comfortable, sustainable cotton blend hoodie perfect for any occasion.',
     price: 59.99,
-    image: 'src/app/images/hoodie.jpg',
+    image: '/app/images/hoodie.jpg',
     sizes: ['S', 'M', 'L', 'XL']
   },
   {
@@ -34,7 +34,23 @@ const products: Product[] = [
     name: 'Recycled Denim Jeans',
     description: 'Stylish jeans made from recycled materials without compromising comfort.',
     price: 79.99,
-    image: '/api/placeholder/300/200',
+    image: '/app/images/jeans.webp',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    id: 4,
+    name: 'Organic White T-Shirt',
+    description: 'Versatile white tee made from organic cotton, perfect for any outfit.',
+    price: 24.99,
+    image: '/app/images/whiteshirt.webp',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    id: 5,
+    name: 'Eco-Friendly Graphic Tee',
+    description: 'Express your style with this sustainably made graphic t-shirt.',
+    price: 34.99,
+    image: '/app/images/tshirt.webp',
     sizes: ['S', 'M', 'L', 'XL']
   }
 ];
