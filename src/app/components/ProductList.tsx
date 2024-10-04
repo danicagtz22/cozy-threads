@@ -20,8 +20,8 @@ export default function ProductList({ products, onAddToCart }: ProductListProps)
 }
 
 function ProductItem({ product, onAddToCart }: { product: Product; onAddToCart: (product: Product, size: string, quantity: number) => void }) {
-    const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
-    const [quantity, setQuantity] = useState<number>(1);
+    const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || 'M');
+    const [quantity, setQuantity] = useState(1);
 
     const handleAddToCart = () => {
         onAddToCart(product, selectedSize, quantity);
@@ -29,15 +29,8 @@ function ProductItem({ product, onAddToCart }: { product: Product; onAddToCart: 
 
     return (
         <Card>
+            <Image src={product.image} alt={product.name} width={300} height={200} />
             <CardHeader>
-                <div className="relative w-full h-64">
-                    <Image
-                        src={product.image}
-                        alt={product.name}
-                        layout="fill"
-                        objectFit="cover"
-                    />
-                </div>
                 <CardTitle>{product.name}</CardTitle>
                 <CardDescription>${product.price.toFixed(2)}</CardDescription>
             </CardHeader>
@@ -47,10 +40,10 @@ function ProductItem({ product, onAddToCart }: { product: Product; onAddToCart: 
                     <label className="block mb-2">Size:</label>
                     <select
                         value={selectedSize}
-                        onChange={(e) => setSelectedSize(e.target.value as string)}
+                        onChange={(e) => setSelectedSize(e.target.value)}
                         className="w-full p-2 border rounded"
                     >
-                        {product.sizes?.map(size => (
+                        {product.sizes?.map((size) => (
                             <option key={size} value={size}>{size}</option>
                         ))}
                     </select>
@@ -61,7 +54,7 @@ function ProductItem({ product, onAddToCart }: { product: Product; onAddToCart: 
                         type="number"
                         min="1"
                         value={quantity}
-                        onChange={(e) => setQuantity(parseInt(e.target.value, 10) || 1)}
+                        onChange={(e) => setQuantity(parseInt(e.target.value))}
                         className="w-full p-2 border rounded"
                     />
                 </div>
